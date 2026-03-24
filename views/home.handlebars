@@ -1,0 +1,17 @@
+<h1>Example App: Home</h1>
+
+
+{{#if msg}}
+ {{msg}}
+{{/if}}
+
+<div id="app"></div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io('http://localhost:3000');
+    socket.on('message', function (msg) {
+        console.log('Received:', msg);
+    });
+    socket.emit('message', 'Hello from client!');
+</script>

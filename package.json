@@ -1,0 +1,32 @@
+{
+  "name": "mangakam",
+  "version": "1.0.0",
+  "description": "Manga strem application",
+  "homepage": "https://github.com/arturproj/mangakam#readme",
+  "bugs": {
+    "url": "https://github.com/arturproj/mangakam/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/arturproj/mangakam.git"
+  },
+  "license": "CC0-1.0",
+  "author": "Artur Shodaton <artur.ddwebproject@gmail.com>",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon app.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "express-handlebars": "^8.0.6",
+    "http": "^0.0.1-security",
+    "socket.io": "^4.8.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
