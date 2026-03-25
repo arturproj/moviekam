@@ -10,7 +10,7 @@ const app = express();
 // Middleware
 // Configure the Cross-Origin-Resource-Policy
 app.use(cors({
-  origin: 'http://localhost:5173', // Specifica l'origine autorizzata
+  origin: '*', // Specifica l'origine autorizzata
   credentials: true,
   optionsSuccessStatus: 200
 }));
@@ -38,7 +38,7 @@ app.use((req, res, next) => {
 
 // Start the server
 const server = http.createServer(app);
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.NODE_PORT || 3000;
 server.listen(PORT, () => {
   console.log(`Example app listening on port http://127.0.0.1:${PORT}`)
 })
