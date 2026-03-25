@@ -18,23 +18,20 @@ app.use(express.json());
 
 // Serve static files from the Vue app (after build)
 app.use(express.static(path.join(__dirname, 'client/dist')));
-app.use(express.static(path.join(__dirname, 'public')));
-
-
-const TheMovieController = require('./api/TheMovieController')
-app.use('/api/movie', TheMovieController)
-const YouTubeController = require('./api/YouTubeController')
-app.use('/api/ytube', YouTubeController)
 
 // Serve Vue app for all other routes
-app.use((req, res, next) => {
-  if (req.method === 'GET' && req.accepts('html') && !req.path.startsWith('/api')) {
-    res.sendFile(path.join(__dirname, 'client/dist', 'index.html'));
-  } else {
-    next();
-  }
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/dist', 'index.html'));
 });
 
+const api = require('./api')
+app.use('/api', api)
+
+// This middleware must be placed after all other app.use() and route definitions
+app.use(function(req, res, next) {
+  // res.status(404).render('404_error_template', { title: "Sorry, page not found" });
+  res.status(404).send("Sorry, page not found");
+});
 
 // Start the server
 const server = http.createServer(app);
