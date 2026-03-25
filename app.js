@@ -1,12 +1,14 @@
-require('dotenv').config();
+require('dotenv').config({
+  path: `.env.${process.env.NODE_ENV || 'development'}`
+});
 const express = require('express');
 const cors = require('cors');
 const http = require('http');
-const path = require('path')
-const socketIo = require('socket.io');
+const path = require('path');
 
 const app = express();
 // Middleware
+// Configure the Cross-Origin-Resource-Policy
 app.use(cors({
   origin: 'http://localhost:5173', // Specifica l'origine autorizzata
   credentials: true,
@@ -18,10 +20,6 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'client/dist')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-const server = http.createServer(app);
-const io = socketIo(server, {
-    cors: { origin: '*' }
-}); 
 
 const TheMovieController = require('./api/TheMovieController')
 app.use('/api/movie', TheMovieController)
@@ -37,20 +35,9 @@ app.use((req, res, next) => {
   }
 });
 
-io.on('connection', (socket) => {
-  console.log('Client connected:', socket.id);
-
-  socket.on('message', (msg) => {
-    console.log('Message:', msg);
-    io.emit('message', msg); // Broadcast to all clients
-  });
-
-  socket.on('disconnect', () => {
-    console.log('Client disconnected');
-  });
-});
 
 // Start the server
+const server = http.createServer(app);
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   console.log(`Example app listening on port http://127.0.0.1:${PORT}`)
