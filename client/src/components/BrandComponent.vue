@@ -2,7 +2,7 @@
   <!-- Popular Brand -->
   <p class="text-white">{{ title }}</p>
   <div class="flex flex-nowrap overflow-x-auto px-2 scrollbar">
-    <div v-for="item in movies" :key="item.id" class="card min-w-48 m-1 my-2 rounded-sm">
+    <div v-for="item in movies.filter(item => item.backdrop_path != null && item.poster_path != null)" :key="item.id" class="card min-w-48 m-1 my-2 rounded-sm">
       <img :src="`https://image.tmdb.org/t/p/w200/${item.poster_path}`" class="rounded-sm"
         :onClick="(e) => setModalData(item, e)" />
     </div>

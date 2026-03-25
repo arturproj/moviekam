@@ -1,8 +1,9 @@
 <template>
-    <div class="absolute top-0 right-0 text-white">
-        <IconCloseMark class="w-7 mr-2 mt-2" :onClick="() => this.closeModal()" />
-    </div>
+
     <div class="flex items-center gap-4 my-auto h-3/4">
+        <div class="absolute top-0 right-0 text-white">
+            <IconCloseMark class="w-7 mr-2 mt-2" :onClick="() => this.closeModal()" />
+        </div>
         <img v-if="!this.watch"
             class="mask-radial-[100%_100%] mask-radial-from-75% mask-radial-at-left min-w-4xl h-auto"
             :src="`https://image.tmdb.org/t/p/w1280${film.backdrop_path}`" />
@@ -30,7 +31,8 @@
         </div>
     </div>
     <div class="flex flex-nowrap overflow-x-auto px-2 scrollbar h-1/4">
-        <div v-for="item in this.collection" :key="item.id" class="card min-w-32 m-1 my-2 rounded-sm">
+        <div v-for="item in this.collection.filter(item => item.backdrop_path != null && item.poster_path != null)"
+            :key="item.id" class="card w-32 max-w-32 min-w-32 m-1 my-2 rounded-sm">
             <img :src="`https://image.tmdb.org/t/p/w200${item.poster_path}`" class="rounded-sm" />
         </div>
     </div>
@@ -59,19 +61,21 @@ export default {
     },
     async mounted() {
         this.collection = (await apiGetMovie(this.film.genre_ids)).results.filter(item => item.id != this.film.id)
+        // preview items
+        const ytube = (await getVideoByName(this.film.title))
         console.log({
             film: this.film,
-            collection: this.collection
+            collection: this.collection,
+            ytube
         })
-        // preview items
-        this.watchItems = (await getVideoByName(this.film.title)).items
-        console.log({
-            watchItems:this.watchItems
-        })
-        if (this.watchItems.length) {
+
+
+        if (ytube?.items && ytube?.items.length) {
+            // preview items
+            this.watchItems = ytube.items
             this.watch = this.watchItems[0].id.videoId
+            console.log(this.watch, this.watchItems)
         }
-        console.log(this.watch, this.watchItems)
     },
     methods: {
         switchVideo(key, e) {
