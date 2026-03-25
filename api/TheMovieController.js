@@ -31,7 +31,7 @@ router.get('/', async (req, res) => {
     res.json(data);
 });
 
-router.get('/genre', async (req, res) => {
+router.get('/genres', async (req, res) => {
     
     const url = `https://${process.env.URL_HOST_MOVIE_DB}/3/genre/movie/list`;
     const options = {

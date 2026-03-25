@@ -1,4 +1,8 @@
-const HOST = 'http://127.0.0.1:8080';
+import axios from "axios";
+
+export const api = axios.create({
+    baseURL: "http://127.0.0.1:8080/api/movie",
+});
 
 export const CODE_ID_MOVIE = {
     ACTION: 28,
@@ -23,9 +27,8 @@ export const CODE_ID_MOVIE = {
 }
 
 export const getGenreMovies = async () => {
-    return fetch(`${HOST}/api/movie/genre`)
-        .then(res => res.json())
-        .then(json => json.genres)
+    return await api.get('/genres')
+        .then(res => res.data)
         .catch(err => console.error(err))
 }
 /**
@@ -51,7 +54,7 @@ export const setupParams = (without_genres = [], with_genres = [], query = {}) =
  * @returns 
  */
 export const apiGetMovie = async (with_genres = [], query = {}) => {
-    const without_genres = (await getGenreMovies()).filter((genre) => !with_genres.includes(genre.id)).map(genre => genre.id)
+    const without_genres = (await getGenreMovies()).genres.filter((genre) => !with_genres.includes(genre.id)).map(genre => genre.id)
 
     const params = setupParams(
         without_genres,
@@ -63,9 +66,8 @@ export const apiGetMovie = async (with_genres = [], query = {}) => {
     console.log({ with_genres, without_genres, query })
     console.groupEnd()
 
-    return await fetch(`${HOST}/api/movie?${params.toString()}`)
-        .then(res => res.json())
-        .then(json => json)
+    return await api.get(`?${params.toString()}`)
+        .then(res => res.data)
         .catch(err => console.error(err))
 }
 
@@ -80,8 +82,7 @@ export const getPopularMovies = async (query) => {
         ...query,
     })
 
-    return await fetch(`${HOST}/api/movie?${params.toString()}`)
-        .then(res => res.json())
-        .then(json => json)
+    return await api.get(`?${params.toString()}`)
+        .then(res => res.data)
         .catch(err => console.error(err))
 }
