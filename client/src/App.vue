@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col w-screen h-screen">
-    <NavBar :user="this.user" />
+    <NavBar :gravatar="this.gravatar" />
 
     <!-- Main -->
     <div class="h-13/13 w-full overflow-y-auto">
@@ -8,6 +8,10 @@
       <!-- Popular Brand -->
       <BrandComponent title="Popular" :movies="this.movies.popular.results" :setModalData="this.setModalData" />
       <!-- end Popular Brand -->
+
+      <!-- Animation Brand -->
+      <BrandComponent title="Animation" :movies="this.movies.animation.results" :setModalData="this.setModalData" />
+      <!-- end Animation Brand -->
 
       <!-- Action Brand -->
       <BrandComponent title="Action" :movies="this.movies.action.results" :setModalData="this.setModalData" />
@@ -17,14 +21,10 @@
       <BrandComponent title="Adventure" :movies="this.movies.adventure.results" :setModalData="this.setModalData" />
       <!-- end Adventure Brand -->
 
-      <!-- Animation Brand -->
-      <BrandComponent title="Animation" :movies="this.movies.animation.results" :setModalData="this.setModalData" />
-      <!-- end Animation Brand -->
-
     </div>
     <!-- end Main -->
     <!-- Modal -->
-    <div v-if="this.modalIsOpen" class="absolute z-10 bg-black w-full h-screen" >
+    <div v-if="this.modalIsOpen" class="absolute z-10 bg-black w-full h-screen">
       <ModalMovie :film="this.modal" :closeModal="this.closeModal" />
     </div>
     <!-- end Modal -->
@@ -62,10 +62,7 @@ export default defineComponent({
         adventure: { results: [] },
         animation: { results: [] },
       },
-      user: {
-        email: "artur.ddwebproject@gmail.com",
-        hashEmail: "69c7f4cc22620c5cfd43354fe6a4d8e0"
-      },
+      gravatar: "69c7f4cc22620c5cfd43354fe6a4d8e0",
       modalIsOpen: false,
       modal: null
     }
