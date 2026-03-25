@@ -10,9 +10,8 @@ router.get('/', (req, res) => {
 
     res.json({
         status: 'OK',
-        path: 'req.path',
+        path: req.path,
         controller: 'YouTubeController'
-
     })
 })
 
@@ -22,7 +21,6 @@ router.get('/video', async (req, res) => {
         ...req.query,
         key: process.env.API_KEY_GOOGLE_API
     })
-    // console.log(req.query, params)
 
     const url = `https://${process.env.URL_HOST_GOOGLE_API}/youtube/v3/search?${params.toString()}`;
     const options = {
@@ -37,17 +35,7 @@ router.get('/video', async (req, res) => {
         .then(json => json)
         .catch(err => console.error(err));
 
-    // console.log(data)
     res.json(data);
-
-
-    // res.json({
-    //     status: 'OK',
-    //     path: 'req.path',
-    //     controller: 'YouTubeController'
-
-    // })
-
 })
 
 module.exports = router
