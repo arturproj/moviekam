@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios from "./instance";
 
 export const api = axios.create({
-    baseURL: "http://127.0.0.1:8080/api/movie",
+    baseURL: "/api/movie",
 });
 
 export const CODE_ID_MOVIE = {
