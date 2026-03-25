@@ -35,6 +35,7 @@ app.use('/api', api)
 
 // This middleware must be placed after all other app.use() and route definitions
 app.use(function (req, res, next) {
+  console.log('Accessing the middleware section ... ErrorController 404', req.path)
   res.status(404).render('404_error_template', { title: "Error 404", msg: "Sorry, page not found" });
 });
 
