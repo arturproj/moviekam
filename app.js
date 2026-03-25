@@ -5,8 +5,14 @@ const express = require('express');
 const cors = require('cors');
 const http = require('http');
 const path = require('path');
+const { engine } = require('express-handlebars');
 
 const app = express();
+
+app.engine('handlebars', engine());
+app.set('view engine', 'handlebars');
+app.set('views', './views');
+
 // Middleware
 // Configure the Cross-Origin-Resource-Policy
 app.use(cors({
@@ -28,9 +34,8 @@ const api = require('./api')
 app.use('/api', api)
 
 // This middleware must be placed after all other app.use() and route definitions
-app.use(function(req, res, next) {
-  // res.status(404).render('404_error_template', { title: "Sorry, page not found" });
-  res.status(404).send("Sorry, page not found");
+app.use(function (req, res, next) {
+  res.status(404).render('404_error_template', { title: "Error 404", msg: "Sorry, page not found" });
 });
 
 // Start the server
